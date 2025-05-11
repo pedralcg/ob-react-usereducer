@@ -1,16 +1,15 @@
-import React from 'react';
-
+import React, { useReducer, useContext } from 'react';
 
 // Actions
-const INCREMENT = 'increment';
-const DECREMENT = 'decrement';
-const RESET = 'reset';
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
+const RESET = 'RESET';
 
-const myContext = React.createContext(null);
+const myContext = React.createContext(null); 
 
 const Points = () => {
 
-    const state = React.useContext(myContext);
+    const state = useContext(myContext);
 
     return (
         <p>Points: { state.count }</p>
@@ -32,69 +31,63 @@ const Counter = () => {
             case INCREMENT:
                 return {
                     count: state.count + action.payload.quantity
-                };
+                }
             case DECREMENT:
                 return {
                     count: state.count - action.payload.quantity
-                };
+                }
             case RESET:
                 return {
                     count: 0
-                };
+                }
             default:
                 return state;
         }
+
     }
 
-
-    // Asign useReducer to State, reducer and dispatch actiones
-    const [state, dispatch] = React.useReducer(reducer, initialState);
-
-
+    // Asign useReducer to state, reducer and dispatch actions
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
         <myContext.Provider value={state}>
             <div>
                 {/* <p>Points: { state.count }</p> */}
                 <Points />
-                <div>
-                    <button 
-                        onClick={
+                <button 
+                    onClick = {
                         () => dispatch({
                             type: INCREMENT,
                             payload: {
-                                quantity: 1
+                                quantity: 2
                                 }
                             })
-                        }
-                    >
-                        Increment
-                    </button>
-                    <button 
-                        onClick={
+                    }
+                >
+                    Increment *2
+                </button>
+                <button 
+                    onClick = {
                         () => dispatch({
                             type: DECREMENT,
                             payload: {
                                 quantity: 1
                                 }
                             })
-                        }
-                    >
-                        Decrement
-                    </button>
-                </div>
-                <div>
-                    <button 
-                        onClick={
+                    }
+                >
+                    Decrement
+                </button>
+                <button 
+                    onClick = {
                         () => dispatch({type: RESET})
-                        }
-                    >
-                        Reset Counter
-                    </button>
-                </div>
+                    }
+                >
+                    Reset Counter
+                </button>
+                
             </div>
         </myContext.Provider>
-        
     );
 }
 
